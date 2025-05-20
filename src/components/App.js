@@ -6,7 +6,6 @@ import { TOKEN_KEY } from '../constants';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem(TOKEN_KEY) ? true : false
-    // true
   );
   const loggedIn = (token) => {
     if (token) {
