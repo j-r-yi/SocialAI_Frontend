@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 
+import '../styles/Register.css';
 import { BASE_URL } from '../constants';
 
 // (mobile) responsiveness design
@@ -31,7 +32,7 @@ const tailFormItemLayout = {
 };
 
 function Register(props) {
-  const [form] = Form.userForm();
+  const [form] = Form.useForm();
   const navigate = useNavigate();
 
   const onFinish = (values) => {
@@ -40,8 +41,8 @@ function Register(props) {
       method: 'POST',
       url: `${BASE_URL}/signup`,
       data: {
-        username,
-        password,
+        username: username,
+        password: password,
       },
       headers: {
         'content-type': 'application/json',
@@ -49,6 +50,7 @@ function Register(props) {
     };
     axios(opt)
       .then((response) => {
+        // login success
         if (response.status === 200) {
           message.success('Registration Succeeded!');
           navigate('/login');
@@ -78,6 +80,53 @@ function Register(props) {
         ]}
       >
         <Input />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        label="Password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password!',
+          },
+        ]}
+        hasFeedback
+      >
+        <Input.Password />
+      </Form.Item>
+      <Form.Item
+        name="confirm"
+        label="Confirm Password"
+        dependencies={['password']}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: 'Please confirm your password!',
+          },
+          ({ getFieldValue }) => ({
+            validator(rule, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                'The two passwords that you entered do not match!'
+              );
+            },
+          }),
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
+      <Form.Item {...tailFormItemLayout}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="register-btn"
+          style={{ backgroundColor: 'black' }}
+        >
+          Register
+        </Button>
       </Form.Item>
     </Form>
   );

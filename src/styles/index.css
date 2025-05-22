@@ -1,1 +1,3 @@
 @import '~antd/dist/antd.css';
+@import './Login.css';
+@import './Register.css';

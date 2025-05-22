@@ -15,8 +15,8 @@ function Login(props) {
       method: 'POST',
       url: `${BASE_URL}/signin`,
       data: {
-        username,
-        password,
+        username: username,
+        password: password,
       },
       headers: {
         'Content-Type': 'application/json',
@@ -26,6 +26,7 @@ function Login(props) {
     // Axios returns a promise
     axios(option)
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
           const { data } = res;
           handleLoggedIn(data);
@@ -39,7 +40,7 @@ function Login(props) {
   return (
     <Form name="normal_login" className="login-form" onFinish={onFinish}>
       <Form.Item
-        name="user"
+        name="username"
         rules={[{ required: true, message: 'Please input your username!' }]}
       >
         <Input
