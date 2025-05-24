@@ -4,6 +4,8 @@ import { Input, Radio } from 'antd';
 
 import { SEARCH_KEY } from '../constants.js';
 
+import '../styles/SearchBar.css';
+
 const { Search } = Input;
 
 const SearchBar = (props) => {
@@ -56,8 +58,8 @@ const SearchBar = (props) => {
         className="search-type-group"
       >
         <Radio value={SEARCH_KEY.all}>All</Radio>
-        <Radio value={SEARCH_KEY.Keyword}>Keyword</Radio>
-        <Radio value={SEARCH_KEY.User}>User</Radio>
+        <Radio value={SEARCH_KEY.keywordeyword}>Keyword</Radio>
+        <Radio value={SEARCH_KEY.user}>User</Radio>
       </Radio.Group>
     </div>
   );
