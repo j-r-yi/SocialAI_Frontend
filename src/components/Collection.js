@@ -113,6 +113,7 @@ function Collection(props) {
     }
   };
 
+  
   return (
     <div className="home">
       <SearchBar handleSearch={handleSearch} />
