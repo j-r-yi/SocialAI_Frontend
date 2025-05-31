@@ -100,8 +100,9 @@ function Landing(props) {
       .then((blob) => {
         let formData = new FormData();
         formData.append('message', 'AI generated image');
-        const file = new File([blob], 'upload.jpg', {
-          type: 'image/jpg',
+        // Create a file from the blob
+        const file = new File([blob], `upload.jpg`, {
+          type: `image/jpg`,
         });
         formData.append('media_file', file);
 
@@ -117,14 +118,16 @@ function Landing(props) {
         axios(opt)
           .then((res) => {
             if (res.status === 200) {
-              message.success('image/video uploaded successfully');
+              console.log('success!!!');
+              message.success('The image/video is uploaded!');
             }
           })
-          .catch(() => {
-            message.error('image/video upload failed');
+          .catch((err) => {
+            console.log('Upload image/video failed: ', err.message);
+            message.error('Failed to upload image/video!');
           })
           .finally(() => {
-            setIndex(-1);
+            setIndex(-1); // close the lightbox
           });
       });
   };
