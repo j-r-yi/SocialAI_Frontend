@@ -31,7 +31,7 @@ export const PostForm = forwardRef((props, formRef) => {
           valuePropName="fileList"
           getValueFromEvent={normFile}
           noStyle
-          rules={{ required: true, message: 'please select an image/vide' }}
+          rules={[{ required: true, message: 'please select an image/video' }]}
         >
           <Upload.Dragger name="files" beforeUpload={() => false}>
             {/* write anything */}

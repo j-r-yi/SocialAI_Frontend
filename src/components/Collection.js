@@ -4,9 +4,10 @@ import axios from 'axios';
 import { Tabs, message, Row, Col } from 'antd';
 import Search from 'antd/lib/transfer/search';
 
-import SearchBar from './SearchBar';
 import { SEARCH_KEY, BASE_URL, TOKEN_KEY } from '../constants';
+import SearchBar from './SearchBar';
 import PhotoGallery from './PhotoGallery';
+import CreatePostButton from './CreatePostButton';
 
 import '../styles/Collection.css';
 
@@ -113,7 +114,16 @@ function Collection(props) {
     }
   };
 
-  
+  // Changes tab view to be dynamic to newest uploaded file type
+  // for user to easily see newly uploaded post
+  const showPost = (type) => {
+    setActiveTab(type);
+    setTimeout(() => {
+      setSearchOption({ type: SEARCH_KEY.all, keyword: '' });
+    }, 3000);
+  };
+
+  const operations = <CreatePostButton onShowPost={showPost} />;
   return (
     <div className="home">
       <SearchBar handleSearch={handleSearch} />
@@ -122,6 +132,7 @@ function Collection(props) {
           onChange={(key) => setActiveTab(key)}
           defaultActiveKey="image"
           activeKey={activeTab}
+          tabBarExtraContent={operations}
         >
           <TabPane tab="Images" key="image">
             {renderPosts('image')}

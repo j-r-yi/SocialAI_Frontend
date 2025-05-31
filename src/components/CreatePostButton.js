@@ -31,12 +31,12 @@ class CreatePostButton extends Component {
       .validateFields() // returns a promise
       .then((form) => {
         const { description, uploadPost } = form;
-        const { type, originFilObj } = uploadPost[0]; // destructure type of file and the file itself
+        const { type, originFileObj } = uploadPost[0]; // destructure type of file and the file itself
         const postType = type.match(/^(image|video)/g)[0]; // regex, returns "image" or "video"
         if (postType) {
           let formData = new FormData();
           formData.append('message', description);
-          formData.append('media_file', originFilObj);
+          formData.append('media_file', originFileObj);
           const opt = {
             method: 'POST',
             url: `${BASE_URL}/upload`,
@@ -77,7 +77,8 @@ class CreatePostButton extends Component {
   };
 
   render() {
-    const [visible, confirmLoading] = this.state;
+    const { visible, confirmLoading } = this.state;
+
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
