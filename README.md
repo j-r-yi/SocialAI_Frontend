@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+# Social AI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> Unleash Creativity, Share Memories—Where AI Meets Your Imagination!
 
-## Available Scripts
+Social AI is a full-stack web application that allows users to:
+- Generate AI images using OpenAI's DALL•E
+- Upload and share images or videos
+- View a searchable gallery of content
+- Register, login, and manage content securely
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Features
+- **AI Image Generation**: Generate high-quality images with DALL•E-3
+- **Media Uploading**: Upload images or videos with captions
+- **Smart Search**: Search posts by keyword or user
+- **Responsive UI**: Mobile-first design with Ant Design and Material UI
+- **User Authentication**: Login, logout, and JWT-based session handling
+- **Lightbox Viewer**: Zoom, fullscreen, slideshow, and delete functionality
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
+- **Frontend**: React, Ant Design, MUI, Styled Components
+- **Media Proxying**: `http-proxy-middleware` to fetch image blobs from OpenAI
+- **Lightbox and Album**: `yet-another-react-lightbox`, `react-photo-album`
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+### 1. Clone the Repo
+```bash
+git clone https://github.com/j-r-yi/SocialAI_Frontend.git
+cd social-ai
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. Install Dependencies
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 3. Configure Environment Variables
+Create a `.env` file in the root directory:
+```
+REACT_APP_OPENAI_KEY=your_openai_api_key_here
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 4. Start Development Server
+```bash
+npm start
+```
+The app will be available at `http://localhost:3000`
 
-### `npm run eject`
+### 5. Optional: Deploy to Google App Engine
+Make sure you have the `app.yaml` config set, then:
+```bash
+gcloud app deploy
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+src/
+├── App.js              # Root component
+├── Main.js             # Routing
+├── constants.js        # Constants (token keys, API base URL)
+├── components/
+│   ├── ResponsiveAppBar.js
+│   ├── Login.js
+│   ├── Register.js
+│   ├── Landing.js      # Image generation
+│   ├── Collection.js   # Gallery view
+│   ├── PhotoGallery.js
+│   ├── SearchBar.js
+│   ├── CreatePostButton.js
+│   └── PostForm.js
+└── setupProxy.js       # Proxy blob requests to OpenAI blob server
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## API Endpoints
+- `POST /signup` — User registration
+- `POST /signin` — User login
+- `POST /upload` — Upload image or video
+- `GET /search` — Fetch posts (filter by keyword or user)
+- `DELETE /post/:id` — Delete a post
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Proxy Setup
 
-### Code Splitting
+`setupProxy.js` is used to fetch OpenAI image blobs that cannot be directly accessed from the browser.
+```js
+app.use(
+  '/api',
+  createProxyMiddleware({
+    target: 'https://oaidalleapiprodscus.blob.core.windows.net/',
+    changeOrigin: true,
+    pathRewrite: { '^/api': '' },
+  })
+);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This allows the app to fetch a blob from `https://oaidalleapiprodscus.blob.core.windows.net/xyz` using `/api/xyz`.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+MIT License © 2025 Joshua Yi
